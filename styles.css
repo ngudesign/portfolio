@@ -1,0 +1,595 @@
+/* Palette: Oxblood Ink, on a near-white page (Balanced accent use)
+   Alternates are saved below. To switch, swap the color values in :root. */
+:root {
+  --paper:   #FBFAF8;  /* page background: near-white */
+  --sidebar: var(--paper); /* sidebar background: same as page, no tint */
+  --surface: #EDE5DF;  /* image placeholders */
+  --rule:    #E8DFD8;  /* lines & borders */
+  --ink:     #2B1719;  /* primary text: soft black (16.2:1) */
+  --muted:   #634F4E;  /* secondary text: rosy gray, 7.3:1 (WCAG AAA) */
+  --accent:  #4A2224;  /* Oxblood Ink, visible red-brown: active tab, hovers, labels (13:1) */
+  --label:   var(--accent); /* eyebrows, section + nav labels */
+  --heading: var(--ink);    /* wordmark + page headline */
+
+  --serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+
+  --sidebar-w: 240px;
+}
+
+/* ---------- Alternate palettes (saved for reference, not active) ----------
+
+   Previous page backgrounds: --paper: #FEFCF9;   soft warm white
+                              --paper: #FFFFFF;   pure white
+   Pairing if the warm white sticks: --surface: #EFE7DF;  --rule: #ECE5DD;
+
+   Previous secondary text: --muted: #6E5B5A;   lighter rosy gray, 6.1:1
+
+   Previous accents: --accent: #7A2630;   deep wine red
+                     --accent: #5C2420;   Deep Oxblood, a slightly redder red-brown
+
+   Sidebar bookmarks for Oxblood Ink (swap into --sidebar above):
+     --sidebar: #F2ECE7;   warm beige, Oxblood Ink's original tinted sidebar
+     --sidebar: #F3E9E6;   blush, picks up the red text and accent
+
+   Bone & Oxblood: near-white with deep wine red, near-black text
+     --paper: #FBFAF8;  --sidebar: #F4F0EC;  --surface: #F0EAE5;  --rule: #EAE4DF;
+     --ink:   #1A1716;  --muted:   #69625E;  --accent:  #7A2630;
+
+   (Oxblood Ink's original page background was #FAF7F4, a warmer off-white.)
+
+   Ivory & Garnet: creamier base with a brighter garnet red, near-black text
+     --paper: #FCFAF6;  --sidebar: #F6F1EA;  --surface: #F1EAE1;  --rule: #EBE4DA;
+     --ink:   #1C1816;  --muted:   #6A635C;  --accent:  #952B36;
+
+   Accent use (applies to any palette):
+     Quiet:      --label: var(--muted);  --heading: var(--ink);
+     Balanced:   --label: var(--accent); --heading: var(--ink);     (current)
+     Expressive: --label: var(--accent); --heading: var(--accent);
+
+   All combinations meet WCAG AA (4.5:1+) for text. Full set to explore: palettes.html
+--------------------------------------------------------------------------- */
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ---------- Layout ---------- */
+.layout {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  min-height: 100vh;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 48px 32px;
+  border-right: 1px solid var(--rule);
+  background: var(--sidebar);
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+.wordmark {
+  color: var(--accent);
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-label {
+  margin: 40px 0 8px;
+  padding-left: 15px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--label);
+}
+
+.nav a {
+  display: block;
+  padding: 8px 0 8px 14px;
+  border-left: 1px solid transparent;
+  font-size: 14px;
+  color: var(--muted);
+  transition: color .15s ease, border-color .15s ease;
+}
+
+.nav a:hover { color: var(--ink); }
+
+.nav a[aria-current="page"] {
+  color: var(--ink);
+  border-left-color: var(--accent);
+}
+
+/* ---------- Content ---------- */
+.content {
+  padding: 120px 80px 24px;
+}
+
+.intro {
+  max-width: 760px;
+}
+
+.eyebrow {
+  margin: 0 0 24px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--label);
+}
+
+.intro h1 {
+  margin: 0 0 32px;
+  color: var(--heading);
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(40px, 5.2vw, 72px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.lede {
+  margin: 0;
+  max-width: 560px;
+  font-family: var(--serif);
+  font-size: 21px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* ---------- Projects ---------- */
+.projects {
+  margin-top: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 96px;
+}
+
+.project-title {
+  margin: 0 0 20px;
+  color: var(--accent);
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.project-image {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+}
+
+/* ---------- About ---------- */
+.portrait {
+  margin-top: 96px;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+}
+
+.about-section {
+  margin-top: 96px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 32px;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--label);
+  padding-top: 6px;
+}
+
+.prose {
+  max-width: 600px;
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.6;
+}
+
+.prose p { margin: 0 0 1em; }
+.prose p:last-child { margin-bottom: 0; }
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.list li:first-child { padding-top: 0; }
+
+.list-main {
+  font-family: var(--serif);
+  font-size: 19px;
+}
+
+.list-meta {
+  flex-shrink: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+@media (max-width: 1100px) {
+  .about-section { grid-template-columns: 1fr; gap: 20px; }
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  margin-top: 96px;
+}
+
+.footer-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.footer-meta p { margin: 0; }
+
+.footer-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 24px;
+}
+
+.footer-links a:hover { color: var(--accent); }
+
+.project a:hover .project-title { color: var(--accent); }
+
+/* ---------- About headline: "Lisa" rolls into "Trúc" on hover ----------
+   Each letter slides up out of view while the new letters roll in from
+   below, one after another. Both names share one grid cell, so the line
+   never shifts. */
+.name-swap {
+  display: inline-grid;
+  overflow: hidden;
+  padding-top: .12em;        /* room for the accent on the ú */
+  margin-top: -.12em;
+  vertical-align: bottom;
+  cursor: default;
+  outline: none;
+}
+
+.name-swap > span { grid-area: 1 / 1; white-space: nowrap; }
+
+.name-swap i {
+  display: inline-block;
+  font-style: normal;
+  transition: transform .45s cubic-bezier(.3, .7, .2, 1);
+  transition-delay: calc(var(--d) * 45ms);
+}
+
+.name-b { color: var(--accent); }
+.name-b i { transform: translateY(115%); }
+
+.name-swap:hover .name-a i,
+.name-swap:focus-visible .name-a i { transform: translateY(-115%); }
+
+.name-swap:hover .name-b i,
+.name-swap:focus-visible .name-b i { transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .name-swap i { transition: none; }
+}
+
+/* ---------- Link hover: italic letter roll + nudge ----------
+   roll.js splits each link label into a regular copy and an italic copy.
+   On hover the letters roll up one after another and the italic copy
+   rolls in from below. */
+.roll {
+  display: inline-grid;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: .12em;     /* room for descenders like the j in "Project" */
+  margin-bottom: -.12em;
+}
+
+.roll > span { grid-area: 1 / 1; white-space: nowrap; }
+
+.roll i {
+  display: inline-block;
+  font-style: normal;
+  transition: transform .4s cubic-bezier(.3, .7, .2, 1);
+  transition-delay: calc(var(--d) * 28ms);
+}
+
+.roll .roll-b i { font-style: italic; transform: translateY(115%); }
+
+a:hover .roll-a i,
+a:focus-visible .roll-a i { transform: translateY(-115%); }
+
+a:hover .roll-b i,
+a:focus-visible .roll-b i { transform: none; }
+
+/* Nudge: the label and its arrow slide right a few pixels */
+.ul,
+.ul + [aria-hidden="true"] {
+  display: inline-grid;
+  transition: transform .35s cubic-bezier(.3, .7, .2, 1);
+}
+.ul + [aria-hidden="true"] { display: inline-block; }
+
+a:hover .ul,
+a:focus-visible .ul,
+a:hover .ul + [aria-hidden="true"],
+a:focus-visible .ul + [aria-hidden="true"] { transform: translateX(6px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .roll i { transition: none; }
+  .ul, .ul + [aria-hidden="true"] { transition: none; }
+}
+
+/* ---------- Case study template ---------- */
+.back-link {
+  display: inline-flex;
+  gap: 6px;
+  margin-bottom: 56px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.back-link:hover { color: var(--ink); }
+
+.cs-hero h1 { margin-bottom: 24px; }
+
+/* At-a-glance facts */
+.cs-meta {
+  margin: 56px 0 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  padding: 24px 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.cs-meta dt {
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--label);
+}
+.cs-meta dd {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+/* Sections: label on the left, content on the right (same as About) */
+.cs-section {
+  margin-top: 96px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 32px;
+}
+
+.cs-subhead {
+  margin: 1.6em 0 .4em;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.25;
+}
+.cs-subhead:first-child { margin-top: 0; }
+
+.cs-quote {
+  margin: 1.6em 0 0;
+  padding-left: 20px;
+  border-left: 1px solid var(--accent);
+}
+.cs-quote p {
+  margin: 0 0 .5em;
+  font-style: italic;
+  font-size: 24px;
+  line-height: 1.4;
+}
+.cs-quote footer {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.cs-list {
+  max-width: 600px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: goal;
+  font-family: var(--serif);
+  font-size: 19px;
+}
+.cs-list li {
+  counter-increment: goal;
+  display: flex;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.cs-list li:first-child { padding-top: 0; }
+.cs-list li::before {
+  content: counter(goal, decimal-leading-zero);
+  flex-shrink: 0;
+  padding-top: 4px;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--label);
+}
+
+/* Images */
+.cs-figure { margin: 56px 0 0; }
+.cs-figure--hero { margin-top: 48px; }
+.cs-image {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+}
+.cs-figure figcaption {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.cs-grid {
+  margin-top: 56px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.cs-grid .cs-figure { margin-top: 0; }
+.cs-grid .cs-image { aspect-ratio: 4 / 3; }
+
+/* Outcome numbers */
+.cs-metrics {
+  margin: 0 0 32px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+.cs-metrics li { display: flex; flex-direction: column; gap: 6px; }
+.cs-metric-num {
+  font-family: var(--serif);
+  font-size: 48px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+}
+.cs-metric-label { font-size: 14px; color: var(--muted); }
+
+/* Next project */
+.cs-next {
+  margin-top: 120px;
+  padding-top: 40px;
+  border-top: 1px solid var(--rule);
+}
+.cs-next .eyebrow { margin-bottom: 12px; }
+.cs-next-link {
+  font-family: var(--serif);
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.1;
+  color: var(--accent);
+}
+
+@media (max-width: 1100px) {
+  .cs-section { grid-template-columns: 1fr; gap: 20px; }
+  .cs-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 760px) {
+  .back-link { margin-bottom: 32px; }
+  .cs-section { margin-top: 56px; }
+  .cs-figure { margin-top: 40px; }
+  .cs-grid { grid-template-columns: 1fr; gap: 32px; margin-top: 40px; }
+  .cs-metrics { grid-template-columns: 1fr; gap: 20px; }
+  .cs-metric-num { font-size: 40px; }
+  .cs-list, .cs-meta dd { font-size: 17px; }
+  .cs-quote p, .cs-subhead { font-size: 20px; }
+  .cs-next { margin-top: 72px; }
+}
+
+/* ---------- Small screens: sidebar becomes a top bar ---------- */
+@media (max-width: 760px) {
+  .layout { grid-template-columns: 1fr; }
+
+  .sidebar {
+    position: static;
+    height: auto;
+    padding: 20px 16px;
+    border-right: 0;
+    border-bottom: 1px solid var(--rule);
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .nav { display: flex; gap: 16px; }
+
+  .nav ul { flex-direction: row; gap: 16px; }
+
+  /* Top bar has no room for group labels */
+  .nav-label { display: none; }
+
+  .nav a {
+    padding: 4px 0;
+    border-left: 0;
+    border-bottom: 1px solid transparent;
+  }
+
+  .nav a[aria-current="page"] { border-bottom-color: var(--accent); }
+
+  .content { padding: 56px 16px 24px; }
+
+  .lede { font-size: 19px; }
+
+  .projects { margin-top: 72px; gap: 56px; }
+
+  .project-title { font-size: 22px; margin-bottom: 14px; }
+
+  .footer { margin-top: 56px; }
+
+  .portrait { margin-top: 56px; }
+
+  .about-section {
+    margin-top: 56px;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .prose, .list-main { font-size: 17px; }
+
+}

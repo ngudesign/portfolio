@@ -1,0 +1,9 @@
+# Local design tools (kept on this Mac, not part of the site)
+palettes.html
+compare.html
+serve.py
+hover.js
+
+# Editor and Claude settings
+.claude/
+.DS_Store
