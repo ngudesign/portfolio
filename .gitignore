@@ -1,8 +1,10 @@
-# Local design tools (kept on this Mac, not part of the site)
-palettes.html
-compare.html
-serve.py
-hover.js
+# Astro build output and installed packages
+dist/
+.astro/
+node_modules/
+
+# Local design tools (palette lab, comparison page): kept on this Mac only
+public/tools/
 
 # Editor and Claude settings
 .claude/

@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { url } from '../lib/url';
+
+// Every file in src/content/work/ becomes a project, listed by its `order`
+const projects = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout title="Work — Lisa Nguyen" active="work">
+  <header class="intro">
+    <p class="eyebrow">Product Designer</p>
+    <h1>Designing calm, considered products for complex problems.</h1>
+    <p class="lede">I'm a product designer who turns tangled workflows into clear, human experiences. I work at the intersection of research, systems thinking, and craft — from first sketch to shipped detail.</p>
+  </header>
+
+  <section class="projects" aria-label="Selected work">
+    {projects.map((project) => (
+      <article class="project">
+        <a href={url(`/work/${project.id}/`)}>
+          <h2 class="project-title"><span class="ul">{project.data.title}</span></h2>
+          {project.data.cover?.src
+            ? <img class="project-image" src={url(project.data.cover.src)} alt={project.data.cover.alt} />
+            : <div class="project-image" role="img" aria-label={`Placeholder image for ${project.data.title}`}></div>}
+        </a>
+      </article>
+    ))}
+  </section>
+</BaseLayout>

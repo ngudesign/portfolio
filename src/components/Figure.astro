@@ -1,0 +1,20 @@
+---
+// One case study image with an optional caption.
+// Without a `src`, it shows the gray placeholder block.
+import { url } from '../lib/url';
+
+interface Props {
+  src?: string;
+  alt: string;
+  caption?: string;
+  class?: string;
+}
+
+const { src, alt, caption, class: className } = Astro.props;
+---
+<figure class:list={['cs-figure', className]}>
+  {src
+    ? <img class="cs-image" src={url(src)} alt={alt} loading="lazy" />
+    : <div class="cs-image" role="img" aria-label={`Placeholder: ${alt}`}></div>}
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>

@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Each letter of the name gets its own element so it can roll on hover
+const letters = (word: string) => [...word];
+
+const experience = [
+  { role: 'Senior Product Designer, Company A', years: '2023 — Now' },
+  { role: 'Product Designer, Company B', years: '2020 — 2023' },
+  { role: 'UX Designer, Company C', years: '2018 — 2020' },
+  { role: 'Visual Designer, Studio D', years: '2016 — 2018' },
+];
+
+const capabilities = [
+  'Product strategy & discovery',
+  'Interaction & visual design',
+  'Design systems',
+  'Prototyping & user research',
+];
+---
+<BaseLayout title="About — Lisa Nguyen" active="about">
+  <header class="intro">
+    <p class="eyebrow">About</p>
+    <h1>Hi, I'm <span class="name-swap" tabindex="0"><span class="name-a">{letters('Lisa.').map((ch, i) => <i style={`--d:${i}`}>{ch}</i>)}</span><span class="name-b" lang="vi" aria-hidden="true">{letters('Trúc.').map((ch, i) => <i style={`--d:${i}`}>{ch}</i>)}</span></span></h1>
+    <p class="lede">A product designer based in City, currently shaping tools that help teams do their best work.</p>
+  </header>
+
+  <div class="portrait" role="img" aria-label="Placeholder portrait"></div>
+
+  <section class="about-section" aria-labelledby="bio">
+    <h2 class="section-title" id="bio">Background</h2>
+    <div class="prose">
+      <p>I've spent the last eight years designing digital products across fintech, healthcare, and productivity software. I started in visual design, moved into interaction design, and now lead end-to-end product work — from framing the problem to sweating the final details.</p>
+      <p>I care about clarity over cleverness. My best work comes from close collaboration with engineers and product partners, a habit of testing early, and a willingness to throw away the first idea.</p>
+      <p>Outside of work, you'll find me reading, cooking for friends, or wandering a new city with a film camera.</p>
+    </div>
+  </section>
+
+  <section class="about-section" aria-labelledby="experience">
+    <h2 class="section-title" id="experience">Experience</h2>
+    <ul class="list">
+      {experience.map(({ role, years }) => (
+        <li><span class="list-main">{role}</span><span class="list-meta">{years}</span></li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="about-section" aria-labelledby="capabilities">
+    <h2 class="section-title" id="capabilities">Capabilities</h2>
+    <ul class="list">
+      {capabilities.map((item) => <li><span class="list-main">{item}</span></li>)}
+    </ul>
+  </section>
+</BaseLayout>

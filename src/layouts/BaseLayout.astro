@@ -1,0 +1,58 @@
+---
+// Shared page shell: <head>, sidebar navigation and footer.
+// Every page wraps its content in this layout, so the sidebar and footer
+// only ever need to be edited here.
+import '../styles/global.css';
+import { url } from '../lib/url';
+
+interface Props {
+  title: string;
+  /** Which sidebar tab is current */
+  active?: 'work' | 'about';
+}
+
+const { title, active } = Astro.props;
+const year = new Date().getFullYear();
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{title}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=Inter:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+</head>
+<body id="top">
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="wordmark" href={url('/')}>Lisa Nguyen</a>
+      <nav class="nav" aria-label="Primary">
+        <ul>
+          <li><a href={url('/')} aria-current={active === 'work' ? 'page' : undefined}><span class="ul">Work</span></a></li>
+          <li><a href={url('/about/')} aria-current={active === 'about' ? 'page' : undefined}><span class="ul">About</span></a></li>
+        </ul>
+        <p class="nav-label" id="nav-contact">Contact me</p>
+        <ul aria-labelledby="nav-contact">
+          <li><a href="https://www.linkedin.com/" target="_blank" rel="noopener"><span class="ul">LinkedIn</span> <span aria-hidden="true">↗</span></a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <slot />
+
+      <footer class="footer">
+        <div class="footer-meta">
+          <p>© {year} Lisa Nguyen</p>
+          <ul class="footer-links">
+            <li><a href="#top"><span class="ul">Back to top</span> <span aria-hidden="true">↑</span></a></li>
+          </ul>
+        </div>
+      </footer>
+    </main>
+  </div>
+  <script is:inline src={url('/roll.js')}></script>
+</body>
+</html>

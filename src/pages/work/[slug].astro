@@ -1,0 +1,115 @@
+---
+// The case study template. Astro builds one page per file in src/content/work/.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Figure from '../../components/Figure.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { url } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const projects = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+  // Each project links to the next one; the last loops back to the first
+  return projects.map((project, i) => ({
+    params: { slug: project.id },
+    props: { project, next: projects[(i + 1) % projects.length] },
+  }));
+}
+
+interface Props {
+  project: CollectionEntry<'work'>;
+  next: CollectionEntry<'work'>;
+}
+
+const { project, next } = Astro.props;
+const d = project.data;
+
+// Blank lines in a text field become separate paragraphs
+const paras = (text: string) => text.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+---
+<BaseLayout title={`${d.title} — Lisa Nguyen`} active="work">
+  <a class="back-link" href={url('/')}><span aria-hidden="true">←</span> <span class="ul">All work</span></a>
+
+  <header class="intro cs-hero">
+    <p class="eyebrow">{d.company} · {d.year}</p>
+    <h1>{d.title}</h1>
+    <p class="lede">{d.summary}</p>
+  </header>
+
+  <dl class="cs-meta">
+    <div><dt>Role</dt><dd>{d.role}</dd></div>
+    <div><dt>Team</dt><dd>{d.team}</dd></div>
+    <div><dt>Timeline</dt><dd>{d.timeline}</dd></div>
+    <div><dt>Platform</dt><dd>{d.platform}</dd></div>
+  </dl>
+
+  <Figure class="cs-figure--hero" {...(d.hero ?? { alt: 'hero image of the final design' })} />
+
+  <section class="cs-section" aria-labelledby="cs-overview">
+    <h2 class="section-title" id="cs-overview">Overview</h2>
+    <div class="prose">{paras(d.overview).map((p) => <p>{p}</p>)}</div>
+  </section>
+
+  <section class="cs-section" aria-labelledby="cs-problem">
+    <h2 class="section-title" id="cs-problem">Problem</h2>
+    <div class="prose">
+      {paras(d.problem).map((p) => <p>{p}</p>)}
+      {d.quote && (
+        <blockquote class="cs-quote">
+          <p>“{d.quote.text}”</p>
+          <footer>{d.quote.by}</footer>
+        </blockquote>
+      )}
+    </div>
+  </section>
+
+  <section class="cs-section" aria-labelledby="cs-goals">
+    <h2 class="section-title" id="cs-goals">Goals</h2>
+    <ol class="cs-list">{d.goals.map((g) => <li>{g}</li>)}</ol>
+  </section>
+
+  <section class="cs-section" aria-labelledby="cs-process">
+    <h2 class="section-title" id="cs-process">Process</h2>
+    <div class="prose">
+      <h3 class="cs-subhead">Research</h3>
+      {paras(d.research).map((p) => <p>{p}</p>)}
+      <h3 class="cs-subhead">Exploration</h3>
+      {paras(d.exploration).map((p) => <p>{p}</p>)}
+    </div>
+  </section>
+
+  {d.explorationImages.length > 0 && (
+    <div class="cs-grid">{d.explorationImages.map((img) => <Figure {...img} />)}</div>
+  )}
+
+  <section class="cs-section" aria-labelledby="cs-solution">
+    <h2 class="section-title" id="cs-solution">Solution</h2>
+    <div class="prose">{paras(d.solution).map((p) => <p>{p}</p>)}</div>
+  </section>
+
+  {d.solutionImages.map((img) => <Figure {...img} />)}
+
+  <section class="cs-section" aria-labelledby="cs-outcome">
+    <h2 class="section-title" id="cs-outcome">Outcome</h2>
+    <div>
+      {d.metrics.length > 0 && (
+        <ul class="cs-metrics">
+          {d.metrics.map((m) => (
+            <li><span class="cs-metric-num">{m.value}</span><span class="cs-metric-label">{m.label}</span></li>
+          ))}
+        </ul>
+      )}
+      <div class="prose">{paras(d.outcome).map((p) => <p>{p}</p>)}</div>
+    </div>
+  </section>
+
+  <section class="cs-section" aria-labelledby="cs-reflection">
+    <h2 class="section-title" id="cs-reflection">Reflection</h2>
+    <div class="prose">{paras(d.reflection).map((p) => <p>{p}</p>)}</div>
+  </section>
+
+  {next.id !== project.id && (
+    <nav class="cs-next" aria-label="Next project">
+      <p class="eyebrow">Next project</p>
+      <a href={url(`/work/${next.id}/`)} class="cs-next-link"><span class="ul">{next.data.title}</span> <span aria-hidden="true">→</span></a>
+    </nav>
+  )}
+</BaseLayout>

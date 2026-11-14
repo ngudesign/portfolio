@@ -370,6 +370,14 @@ a:focus-visible .ul + [aria-hidden="true"] { transform: translateX(6px); }
   .ul, .ul + [aria-hidden="true"] { transition: none; }
 }
 
+/* Real images (when a src is added) fill the same frame as the placeholders */
+img.project-image,
+img.cs-image {
+  display: block;
+  height: auto;
+  object-fit: cover;
+}
+
 /* ---------- Case study template ---------- */
 .back-link {
   display: inline-flex;
