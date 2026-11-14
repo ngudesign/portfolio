@@ -11,10 +11,11 @@
   --label:   var(--accent); /* eyebrows, section + nav labels */
   --heading: var(--ink);    /* wordmark + page headline */
 
-  --serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --serif: "Literata", Georgia, "Times New Roman", serif;
   --sans: "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
 
   --sidebar-w: 240px;
+  --radius-image: 12px;   /* rounded frame for project images and the portrait */
 }
 
 /* ---------- Alternate palettes (saved for reference, not active) ----------
@@ -86,11 +87,22 @@ a { color: inherit; text-decoration: none; }
 }
 
 .wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   color: var(--accent);
-  font-family: var(--serif);
+  /* Gloock is used only for the name; it comes in a single weight (400) */
+  font-family: "Gloock", var(--serif);
   font-size: 22px;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: -0.01em;
+}
+
+/* Single-stroke butterfly before the name, drawn in the accent color */
+.wordmark-icon {
+  flex: none;
+  width: 20px;
+  height: 20px;
 }
 
 .nav ul {
@@ -189,6 +201,8 @@ a { color: inherit; text-decoration: none; }
   aspect-ratio: 16 / 10;
   background: var(--surface);
   border: 1px solid var(--rule);
+  border-radius: var(--radius-image);
+  overflow: hidden;
 }
 
 /* ---------- About ---------- */
@@ -198,6 +212,8 @@ a { color: inherit; text-decoration: none; }
   aspect-ratio: 16 / 10;
   background: var(--surface);
   border: 1px solid var(--rule);
+  border-radius: var(--radius-image);
+  overflow: hidden;
 }
 
 .about-section {
@@ -365,9 +381,24 @@ a:focus-visible .ul,
 a:hover .ul + [aria-hidden="true"],
 a:focus-visible .ul + [aria-hidden="true"] { transform: translateX(6px); }
 
+/* Project titles only: an oxblood arrow fades in and slides along with the title */
+.project-title .ul + .project-arrow {
+  opacity: 0;
+  transform: translateX(-4px);
+  color: var(--accent);
+  transition: opacity .3s ease, transform .35s cubic-bezier(.3, .7, .2, 1);
+}
+
+a:hover .project-title .ul + .project-arrow,
+a:focus-visible .project-title .ul + .project-arrow {
+  opacity: 1;
+  transform: translateX(6px);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .roll i { transition: none; }
   .ul, .ul + [aria-hidden="true"] { transition: none; }
+  .project-title .ul + .project-arrow { transition: none; }
 }
 
 /* Real images (when a src is added) fill the same frame as the placeholders */
@@ -484,6 +515,8 @@ img.cs-image {
   aspect-ratio: 16 / 10;
   background: var(--surface);
   border: 1px solid var(--rule);
+  border-radius: var(--radius-image);
+  overflow: hidden;
 }
 .cs-figure figcaption {
   margin-top: 12px;

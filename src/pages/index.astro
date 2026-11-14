@@ -17,7 +17,7 @@ const projects = (await getCollection('work')).sort((a, b) => a.data.order - b.d
     {projects.map((project) => (
       <article class="project">
         <a href={url(`/work/${project.id}/`)}>
-          <h2 class="project-title"><span class="ul">{project.data.title}</span></h2>
+          <h2 class="project-title"><span class="ul">{project.data.title}</span> <span class="project-arrow" aria-hidden="true">→</span></h2>
           {project.data.cover?.src
             ? <img class="project-image" src={url(project.data.cover.src)} alt={project.data.cover.alt} />
             : <div class="project-image" role="img" aria-label={`Placeholder image for ${project.data.title}`}></div>}
